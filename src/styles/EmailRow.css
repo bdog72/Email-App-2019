@@ -1,0 +1,29 @@
+.email-row {
+  overflow: hidden;
+}
+.email-date,
+.email-from,
+.email-subject,
+.email-body,
+.email-body {
+  text-overflow: ellipsis;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.email-date {
+  width: 10%;
+}
+
+.email-from {
+  width: 15%;
+}
+
+.email-subject {
+  width: 30%;
+}
+
+.email-body {
+  width: 45%;
+}
