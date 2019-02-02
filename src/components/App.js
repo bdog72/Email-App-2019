@@ -12,9 +12,27 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emails: EMAILS
+      emails: EMAILS,
+      isRead: {
+        '7ba33b80-b975-4309-b868-7af2f5cea4da': true
+      }
     };
+    this.markRead = this.markRead.bind(this);
+    this.markUnread = this.markUnread.bind(this);
   }
+
+  markRead(emailId) {
+    let isRead = { ...this.state.isRead };
+    isRead[emailId] = true;
+    this.setState({ isRead });
+  }
+
+  markUnread(emailId) {
+    let isRead = { ...this.state.isRead };
+    isRead[emailId] = false;
+    this.setState({ isRead });
+  }
+
   render() {
     return (
       <div className="app-container">
@@ -24,12 +42,24 @@ class App extends Component {
             <Route
               exact
               path="/"
-              component={() => <Inbox emails={this.state.emails} />}
+              component={() => (
+                <Inbox
+                  emails={this.state.emails}
+                  isRead={this.state.isRead}
+                  markRead={this.markRead}
+                  markUnread={this.markUnread}
+                />
+              )}
             />
             <Route
               exact
               path="/read/:id"
-              component={() => <EmailRead emails={this.state.emails} />}
+              component={() => (
+                <EmailRead
+                  emails={this.state.emails}
+                  markRead={this.markRead}
+                />
+              )}
             />
           </React.Fragment>
         </Router>
