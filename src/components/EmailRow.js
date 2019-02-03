@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/EmailRow.css';
-
+import { Link } from 'react-router-dom';
 export default class EmailRow extends Component {
   constructor(props) {
     super(props);
@@ -33,10 +33,12 @@ export default class EmailRow extends Component {
         <div className="email-toggle-is-read">
           <button onClick={this.toggleIsRead}>Is Read</button>
         </div>
-        <div className="email-date">{this.props.email.date}</div>
-        <div className="email-from">{this.props.email.email}</div>
-        <div className="email-subject">{this.props.email.subject}</div>
-        <div className="email-body">{this.props.email.body}</div>
+        <Link to={`/read/${this.props.email.id}`}>
+          <div className="email-date">{this.props.email.date}</div>
+          <div className="email-from">{this.props.email.email}</div>
+          <div className="email-subject">{this.props.email.subject}</div>
+          <div className="email-body">{this.props.email.body}</div>
+        </Link>
       </div>
     );
   }
