@@ -13,12 +13,19 @@ class App extends Component {
     super(props);
     this.state = {
       emails: EMAILS,
-      isRead: {
-        '7ba33b80-b975-4309-b868-7af2f5cea4da': true
-      }
+      isRead: {},
+      isSelected: {}
     };
+
     this.markRead = this.markRead.bind(this);
     this.markUnread = this.markUnread.bind(this);
+    this.select = this.select.bind(this);
+    this.deSelect = this.deSelect.bind(this);
+    this.selectAll = this.selectAll.bind(this);
+    this.deselectAll = this.deselectAll.bind(this);
+
+    this.markSelectedRead = this.markSelectedRead.bind(this);
+    this.markSelectedUnread = this.markSelectedUnread.bind(this);
   }
 
   markRead(emailId) {
@@ -31,6 +38,50 @@ class App extends Component {
     let isRead = { ...this.state.isRead };
     isRead[emailId] = false;
     this.setState({ isRead });
+  }
+
+  select(emailId) {
+    let isSelected = { ...this.state.isSelected };
+    isSelected[emailId] = true;
+    this.setState({ isSelected });
+  }
+
+  deSelect(emailId) {
+    let isSelected = { ...this.state.isSelected };
+    isSelected[emailId] = false;
+    this.setState({ isSelected });
+  }
+
+  markSelectedRead() {
+    let isRead = { ...this.state.isRead };
+    for (let key in this.state.isSelected) {
+      if (this.state.isSelected[key]) {
+        isRead[key] = true;
+      }
+    }
+    this.setState({ isRead });
+  }
+
+  markSelectedUnread() {
+    let isRead = { ...this.state.isRead };
+    for (let key in this.state.isSelected) {
+      if (this.state.isSelected[key]) {
+        isRead[key] = false;
+      }
+    }
+    this.setState({ isRead });
+  }
+
+  selectAll() {
+    let isSelected = {};
+    for (let email of this.state.emails) {
+      isSelected[email.id] = true;
+    }
+    this.setState({ isSelected });
+  }
+
+  deselectAll() {
+    this.setState({ isSelected: {} });
   }
 
   render() {
@@ -46,8 +97,15 @@ class App extends Component {
                 <Inbox
                   emails={this.state.emails}
                   isRead={this.state.isRead}
+                  isSelected={this.state.isSelected}
                   markRead={this.markRead}
                   markUnread={this.markUnread}
+                  markSelectedRead={this.markSelectedRead}
+                  markSelectedUnread={this.markSelectedUnread}
+                  select={this.select}
+                  deSelect={this.deSelect}
+                  selectAll={this.selectAll}
+                  deselectAll={this.deselectAll}
                 />
               )}
             />

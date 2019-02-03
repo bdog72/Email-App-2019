@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import '../styles/EmailRow.css';
 import { Link } from 'react-router-dom';
+
 export default class EmailRow extends Component {
   constructor(props) {
     super(props);
-    this.toggleIsRead = this.toggleIsRead.bind(this);
+    this.toggleIsSelected = this.toggleIsSelected.bind(this);
   }
 
   getClassName() {
@@ -16,22 +17,35 @@ export default class EmailRow extends Component {
     return className;
   }
 
-  toggleIsRead() {
-    let emailId = this.props.email.id;
+  // toggleIsRead() {
+  //   let emailId = this.props.email.id;
 
-    if (this.props.isRead[emailId]) {
-      this.props.markUnread(emailId);
+  //   if (this.props.isRead[emailId]) {
+  //     this.props.markUnread(emailId);
+  //   } else {
+  //     this.props.markRead(emailId);
+  //   }
+  //   return true;
+  // }
+
+  toggleIsSelected() {
+    let emailId = this.props.email.id;
+    if (!this.props.isSelected[emailId]) {
+      this.props.select(emailId);
     } else {
-      this.props.markRead(emailId);
+      this.props.deSelect(emailId);
     }
-    return true;
   }
 
   render() {
     return (
       <div className={this.getClassName()}>
         <div className="email-toggle-is-read">
-          <button onClick={this.toggleIsRead}>Is Read</button>
+          <input
+            type="checkbox"
+            onChange={this.toggleIsSelected}
+            checked={this.props.isSelected[this.props.email.id]}
+          />
         </div>
         <Link to={`/read/${this.props.email.id}`}>
           <div className="email-date">{this.props.email.date}</div>
